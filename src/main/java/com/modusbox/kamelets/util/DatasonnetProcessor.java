@@ -20,11 +20,13 @@ public class DatasonnetProcessor {
     }
 
     public void process(final Exchange ex) {
+        var script = new String(Base64.decodeBase64(template));
+        log.info("datasonnet script: {}", script);
         log.info("Received exchange message: {}", ex.getMessage());
         log.info("Received exchange message body: {}", ex.getMessage().getBody());
         log.info("Received exchange message body class: {}", ex.getMessage().getBody().getClass());
-        var jsonNodeBody = ex.getMessage().getBody(JsonNode.class);
-        var script = new String(Base64.decodeBase64(template));
+
+        var jsonNodeBody = MAPPER.valueToTree(ex.getMessage().getBody());
         var mapper = new Mapper(script);
         var transformed = mapper
                 .transform(new DefaultDocument<>(jsonNodeBody.asText(), MediaTypes.APPLICATION_JSON));
