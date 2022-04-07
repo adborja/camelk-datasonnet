@@ -3,7 +3,6 @@ package com.modusbox.kamelets.util;
 import com.datasonnet.Mapper;
 import com.datasonnet.document.DefaultDocument;
 import com.datasonnet.document.MediaTypes;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.camel.Exchange;
 import org.apache.commons.codec.binary.Base64;
@@ -21,15 +20,10 @@ public class DatasonnetProcessor {
 
     public void process(final Exchange ex) {
         var script = new String(Base64.decodeBase64(template));
-        log.info("datasonnet script: {}", script);
-        log.info("Received exchange message: {}", ex.getMessage());
-        log.info("Received exchange message body: {}", ex.getMessage().getBody());
-        log.info("Received exchange message body class: {}", ex.getMessage().getBody().getClass());
-
         var jsonNodeBody = MAPPER.valueToTree(ex.getMessage().getBody());
         var mapper = new Mapper(script);
         var transformed = mapper
-                .transform(new DefaultDocument<>(jsonNodeBody.asText(), MediaTypes.APPLICATION_JSON));
+                .transform(new DefaultDocument<>(jsonNodeBody.toString(), MediaTypes.APPLICATION_JSON));
         ex.getMessage().setBody(transformed);
     }
 }
