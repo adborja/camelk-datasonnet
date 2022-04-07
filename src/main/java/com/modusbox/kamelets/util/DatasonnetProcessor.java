@@ -24,14 +24,28 @@ public class DatasonnetProcessor {
     }
 
     public void process(final Exchange ex) throws Exception {
+        log.info("resultType: {}", resultType);
+
+
         var script = new String(Base64.decodeBase64(template));
+        log.info("script: {}", script);
         var jsonNodeBody = MAPPER.valueToTree(ex.getMessage().getBody());
+        log.info("jsonNodeBody: {}", jsonNodeBody);
+
         var mapper = new Mapper(script);
         var transformed = mapper
                 .transform(new DefaultDocument<>(jsonNodeBody.toString(), MediaTypes.APPLICATION_JSON));
+        log.info("transformed: {}", transformed);
+
         ex.setProperty(Exchange.CONTENT_TYPE, transformed.getMediaType());
         var content = transformed.getContent();
+
+        log.info("content: {}", content);
+
         var contentMap = MAPPER.readValue(content, Class.forName(resultType));
+
+        log.info("contentMap: {}", contentMap);
+
         ex.getMessage().setBody(contentMap);
     }
 }
