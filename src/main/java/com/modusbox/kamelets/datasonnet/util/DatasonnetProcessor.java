@@ -28,7 +28,6 @@ public class DatasonnetProcessor {
         var script = new String(Base64.decodeBase64(template));
         var exchangeWrapper = ExchangeWrapper.fromExchange(ex);
         var jsonNodeBody = MAPPER.valueToTree(exchangeWrapper);
-        log.info("JsonNodeBody: {}", jsonNodeBody);
         var mapper = new Mapper(script);
         var transformed = mapper
                 .transform(new DefaultDocument<>(jsonNodeBody.toString(), MediaTypes.APPLICATION_JSON));
