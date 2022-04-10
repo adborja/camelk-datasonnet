@@ -1,9 +1,10 @@
-package com.modusbox.kamelets.util;
+package com.modusbox.kamelets.datasonnet.util;
 
 import com.datasonnet.Mapper;
 import com.datasonnet.document.DefaultDocument;
 import com.datasonnet.document.MediaTypes;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.modusbox.kamelets.datasonnet.model.ExchangeWrapper;
 import org.apache.camel.Exchange;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
@@ -24,10 +25,9 @@ public class DatasonnetProcessor {
     }
 
     public void process(final Exchange ex) throws Exception {
-        var test = MAPPER.writeValueAsString(ex);
-        log.info("Exchange json: {}", test);
-
-
+        var exchangeWrapper = ExchangeWrapper.fromExchange(ex);
+        var test = MAPPER.writeValueAsString(exchangeWrapper);
+        log.info("Exchange Wrapper: {}", test);
         var script = new String(Base64.decodeBase64(template));
         var jsonNodeBody = MAPPER.valueToTree(ex.getMessage().getBody());
         var mapper = new Mapper(script);
