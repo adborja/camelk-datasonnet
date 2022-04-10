@@ -25,11 +25,9 @@ public class DatasonnetProcessor {
     }
 
     public void process(final Exchange ex) throws Exception {
-        var exchangeWrapper = ExchangeWrapper.fromExchange(ex);
-        var test = MAPPER.writeValueAsString(exchangeWrapper);
-        log.info("Exchange Wrapper: {}", test);
         var script = new String(Base64.decodeBase64(template));
-        var jsonNodeBody = MAPPER.valueToTree(ex.getMessage().getBody());
+        var exchangeWrapper = ExchangeWrapper.fromExchange(ex);
+        var jsonNodeBody = MAPPER.valueToTree(exchangeWrapper);
         var mapper = new Mapper(script);
         var transformed = mapper
                 .transform(new DefaultDocument<>(jsonNodeBody.toString(), MediaTypes.APPLICATION_JSON));
