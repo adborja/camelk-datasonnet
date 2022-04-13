@@ -25,7 +25,7 @@ public class DatasonnetProcessor {
     }
 
     public void process(final Exchange ex) throws Exception {
-        log.info("context props: {}" , ex.getContext().getPropertiesComponent().loadPropertiesAsMap());
+        log.info("context props: {}" , ex.getContext().getPropertiesComponent().getLocalProperties());
         log.info("Exchange Properties: {}", ex.getAllProperties());
         var script = new String(Base64.decodeBase64(template));
         var exchangeWrapper = ExchangeWrapper.fromExchange(ex);
