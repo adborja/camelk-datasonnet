@@ -25,6 +25,7 @@ public class DatasonnetProcessor {
     }
 
     public void process(final Exchange ex) throws Exception {
+        log.info("Exchange Properties: {}", ex.getAllProperties());
         var script = new String(Base64.decodeBase64(template));
         var exchangeWrapper = ExchangeWrapper.fromExchange(ex);
         var jsonNodeBody = MAPPER.valueToTree(exchangeWrapper);
@@ -36,6 +37,3 @@ public class DatasonnetProcessor {
         ex.getMessage().setBody(content);
     }
 }
-
-
-
