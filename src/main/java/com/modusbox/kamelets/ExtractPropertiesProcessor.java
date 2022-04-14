@@ -21,5 +21,6 @@ public class ExtractPropertiesProcessor {
         var jsonNode = MAPPER.readTree(property);
         var iterator = jsonNode.fields();
         iterator.forEachRemaining(node -> ex.setProperty(node.getKey(), node.getValue().asText("")));
+        log.info("exchange props: {}", ex.getProperties() );
     }
 }
