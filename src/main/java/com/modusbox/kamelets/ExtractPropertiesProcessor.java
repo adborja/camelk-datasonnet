@@ -24,7 +24,8 @@ public class ExtractPropertiesProcessor {
         try {
             log.info("property json: {}", property);
             var jsonNode = MAPPER.readTree(property);
-            log.info("JsonNode: {}", jsonNode);
+            log.info("JsonNode: {}", jsonNode.getClass());
+            System.out.println(jsonNode.getClass());
             var iterator = jsonNode.fields();
             iterator.forEachRemaining(node -> {
                 log.info("setting property: {} -> {}", node.getKey(), node.getValue().asText(""));
