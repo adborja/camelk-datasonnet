@@ -5,6 +5,8 @@ import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.support.DefaultExchange;
 import org.apache.camel.support.DefaultMessage;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,6 +26,8 @@ public class ExtractPropertiesProcessorTest {
         var property = "{'k1': 'v1', 'k2': 'v2'}";
         processor.setProperty(property);
         processor.process(exchange);
+
+        MatcherAssert.assertThat(exchange.getProperties().size(), CoreMatchers.is(3));
     }
 
     private static Exchange buildDefaultExchange(Object body) {

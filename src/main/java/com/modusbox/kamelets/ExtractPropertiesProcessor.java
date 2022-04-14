@@ -20,15 +20,19 @@ public class ExtractPropertiesProcessor {
         this.property = property;
     }
 
-    public void process(final Exchange ex) throws JsonProcessingException {
-        log.debug("property json: {}", property);
-        var jsonNode = MAPPER.readTree(property);
-        log.info("JsonNode: {}", jsonNode);
-        var iterator = jsonNode.fields();
-        iterator.forEachRemaining(node -> {
-            log.info("setting property: {} -> {}", node.getKey(), node.getValue().asText(""));
-            ex.getProperties().put(node.getKey(), node.getValue().asText(""));
-        });
-        log.info("exchange props: {}", ex.getProperties() );
+    public void process(final Exchange exchange)  {
+        try {
+            log.info("property json: {}", property);
+            var jsonNode = MAPPER.readTree(property);
+            log.info("JsonNode: {}", jsonNode);
+            var iterator = jsonNode.fields();
+            iterator.forEachRemaining(node -> {
+                log.info("setting property: {} -> {}", node.getKey(), node.getValue().asText(""));
+                exchange.getProperties().put(node.getKey(), node.getValue().asText(""));
+            });
+            log.info("exchange props: {}", exchange.getProperties() );
+        } catch (JsonProcessingException ex) {
+            log.error("error processing property: {}", ex.getMessage());
+        }
     }
 }
