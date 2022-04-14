@@ -1,0 +1,27 @@
+package com.modusbox.kamelets;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.camel.Exchange;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class ExtractPropertiesProcessor {
+    private static final Logger log = LoggerFactory.getLogger(ExtractPropertiesProcessor.class);
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+
+    private String property;
+
+    public void setProperty(final String property) {
+        this.property = property;
+    }
+
+    public void process(final Exchange ex) throws JsonProcessingException {
+        log.info("property json: {}", property);
+        var jsonNode = MAPPER.readTree(property);
+        var iterator = jsonNode.fields();
+        iterator.forEachRemaining(node ->
+            ex.getMessage().getHeaders().put(node.getKey(), node.getValue().asText(""))
+        );
+    }
+}
