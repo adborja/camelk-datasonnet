@@ -1,6 +1,5 @@
 package com.modusbox.kamelets;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.support.DefaultExchange;
@@ -21,7 +20,7 @@ public class ExtractPropertiesProcessorTest {
     ExtractPropertiesProcessor processor;
 
     @Test
-    void testProcess() throws JsonProcessingException {
+    void testProcess() {
         var exchange = buildDefaultExchange(null);
         var property = "{'k1': 'v1', 'k2': 'v2'}";
         processor.setProperty(property);
