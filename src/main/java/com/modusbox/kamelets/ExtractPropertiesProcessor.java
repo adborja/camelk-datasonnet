@@ -23,7 +23,7 @@ public class ExtractPropertiesProcessor {
     public void process(final Exchange ex) throws JsonProcessingException {
         log.debug("property json: {}", property);
         var jsonNode = MAPPER.readTree(property);
-        log.debug("JsonNode: {}", jsonNode);
+        log.info("JsonNode: {}", jsonNode);
         var iterator = jsonNode.fields();
         iterator.forEachRemaining(node -> {
             log.info("setting property: {} -> {}", node.getKey(), node.getValue().asText(""));
