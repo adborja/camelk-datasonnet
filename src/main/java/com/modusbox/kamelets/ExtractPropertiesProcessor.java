@@ -20,8 +20,6 @@ public class ExtractPropertiesProcessor {
         log.info("property json: {}", property);
         var jsonNode = MAPPER.readTree(property);
         var iterator = jsonNode.fields();
-        iterator.forEachRemaining(node ->
-            ex.getMessage().getHeaders().put(node.getKey(), node.getValue().asText(""))
-        );
+        iterator.forEachRemaining(node -> ex.setProperty(node.getKey(), node.getValue().asText("")));
     }
 }
