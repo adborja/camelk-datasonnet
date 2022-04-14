@@ -26,7 +26,7 @@ public class ExtractPropertiesProcessor {
         log.debug("JsonNode: {}", jsonNode);
         var iterator = jsonNode.fields();
         iterator.forEachRemaining(node -> {
-            log.debug("setting property: {} -> {}", node.getKey(), node.getValue().asText(""));
+            log.info("setting property: {} -> {}", node.getKey(), node.getValue().asText(""));
             ex.getProperties().put(node.getKey(), node.getValue().asText(""));
         });
         log.info("exchange props: {}", ex.getProperties() );
