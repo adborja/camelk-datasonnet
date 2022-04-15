@@ -31,14 +31,9 @@ public class ExtractPropertiesProcessor {
             iterator.forEachRemaining(node -> {
                 log.info("setting property: {} -> {}", node.getKey(), node.getValue().asText(""));
                 exchange.getProperties().put(node.getKey(), node.getValue().asText(""));
-                if (exchange.getContext().getPropertiesComponent() != null) {
-                    var optProps = Optional.ofNullable(exchange.getContext()
-                            .getPropertiesComponent()
-                            .loadProperties());
-                    optProps.ifPresent(properties -> {
-                        properties.setProperty(node.getKey(), node.getValue().asText());
-                        log.info("property {} added to camelcontext", node.getKey());
-                    });
+                if (exchange.getContext().getGlobalOptions() != null) {
+                    exchange.getContext().getGlobalOptions().put(node.getKey(), node.getValue().asText());
+                    log.info("property {} added to camelcontext", node.getKey());
                 }
             });
             log.info("exchange props: {}", exchange.getProperties() );
