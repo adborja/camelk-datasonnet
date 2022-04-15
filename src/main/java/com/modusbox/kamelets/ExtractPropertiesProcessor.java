@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
-import java.util.Properties;
 
 public class ExtractPropertiesProcessor {
     private static final Logger log = LoggerFactory.getLogger(ExtractPropertiesProcessor.class);
@@ -27,7 +26,6 @@ public class ExtractPropertiesProcessor {
         try {
             log.info("property json: {}", property);
             var jsonNode = MAPPER.readTree(property);
-            log.info("JsonNode: {}", jsonNode.getClass());
             System.out.println(jsonNode.getClass());
             var iterator = jsonNode.fields();
             iterator.forEachRemaining(node -> {
@@ -36,7 +34,7 @@ public class ExtractPropertiesProcessor {
                 if (exchange.getContext().getPropertiesComponent() != null) {
                     var optProps = Optional.ofNullable(exchange.getContext()
                             .getPropertiesComponent()
-                            .getLocalProperties());
+                            .loadProperties());
                     optProps.ifPresent(properties -> {
                         properties.setProperty(node.getKey(), node.getValue().asText());
                         log.info("property {} added to camelcontext", node.getKey());

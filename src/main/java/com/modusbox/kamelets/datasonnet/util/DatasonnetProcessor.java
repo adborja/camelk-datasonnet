@@ -26,7 +26,7 @@ public class DatasonnetProcessor {
 
     public void process(final Exchange ex) throws Exception {
         log.info("Exchange Properties: {}", ex.getProperties());
-        log.info("Camel Context Local Properties: {}", ex.getContext().getPropertiesComponent().getLocalProperties());
+        log.info("Camel Context Local Properties: {}", ex.getContext().getPropertiesComponent().loadProperties());
         var script = new String(Base64.decodeBase64(template));
         var exchangeWrapper = ExchangeWrapper.fromExchange(ex);
         var jsonNodeBody = MAPPER.valueToTree(exchangeWrapper);
