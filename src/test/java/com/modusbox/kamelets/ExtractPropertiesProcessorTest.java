@@ -21,7 +21,7 @@ public class ExtractPropertiesProcessorTest {
     ExtractPropertiesProcessor processor;
 
     @Test
-    void testProcess() throws IOException {
+    void testProcess() throws Exception {
         var exchange = buildDefaultExchange(null);
         var property = "{'k1': 'v1', 'k2': 'v2'}";
         processor.setProperty(property);

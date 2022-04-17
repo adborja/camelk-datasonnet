@@ -33,7 +33,7 @@ public class ExtractPropertiesProcessor {
         this.property = property;
     }
 
-    public void process(final Exchange exchange) throws IOException {
+    public void process(final Exchange exchange) throws Exception {
         try {
             log.info("secrets: {}", secretsArray[0]);
             var scheme = ResourceHelper.getScheme(secretsArray[0]);
@@ -44,6 +44,8 @@ public class ExtractPropertiesProcessor {
             log.info("url path: {}", url.getPath());
             log.info("url host: {}", url.getHost());
             log.info("url authority: {}", url.getAuthority());
+            log.info("url to uri: {}", url.toURI());
+            log.info("uri path: {}", url.toURI().getPath());
             var is = ResourceHelper.resolveResourceAsInputStream(exchange.getContext(), secretsArray[0]);
             var secretValue = new String(is.readAllBytes());
             log.info("--> secret value: {}", secretValue);
