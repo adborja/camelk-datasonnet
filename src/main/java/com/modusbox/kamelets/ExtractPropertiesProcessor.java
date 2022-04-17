@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.camel.Exchange;
 import org.apache.camel.support.ResourceHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,13 +40,8 @@ public class ExtractPropertiesProcessor {
             var scheme = ResourceHelper.getScheme(secretsArray[0]);
             log.info("scheme: {}", scheme);
             var url = ResourceHelper.resolveResourceAsUrl(exchange.getContext(), secretsArray[0]);
-            log.info("url: {}", url);
-            log.info("url file: {}", url.getFile());
-            log.info("url path: {}", url.getPath());
-            log.info("url host: {}", url.getHost());
-            log.info("url authority: {}", url.getAuthority());
-            log.info("url to uri: {}", url.toURI());
-            log.info("uri path: {}", url.toURI().getPath());
+            var secretName = StringUtils.substringBefore(secretsArray[0], scheme);
+            log.info("secret name: {}", secretName);
             var is = ResourceHelper.resolveResourceAsInputStream(exchange.getContext(), secretsArray[0]);
             var secretValue = new String(is.readAllBytes());
             log.info("--> secret value: {}", secretValue);
