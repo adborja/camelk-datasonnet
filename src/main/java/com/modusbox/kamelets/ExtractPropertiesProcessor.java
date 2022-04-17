@@ -18,10 +18,13 @@ public class ExtractPropertiesProcessor {
 
     private String property;
 
-    private String[] secrets;
+    private String secrets;
 
-    public void setSecrets(String[] secrets) {
+    private String[] secretsArray;
+
+    public void setSecrets(String secrets) {
         this.secrets = secrets;
+        this.secretsArray = secrets.split(",");
     }
 
     public void setProperty(final String property) {
@@ -30,7 +33,7 @@ public class ExtractPropertiesProcessor {
 
     public void process(final Exchange exchange)  {
         try {
-            log.info("secrets: {}", secrets.length);
+            log.info("secrets: {}", secretsArray.length);
             log.info("property json: {}", property);
             var jsonNode = MAPPER.readTree(property);
             System.out.println(jsonNode.getClass());
