@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.camel.Exchange;
+import org.apache.camel.support.ResourceHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class ExtractPropertiesProcessor {
@@ -31,9 +33,11 @@ public class ExtractPropertiesProcessor {
         this.property = property;
     }
 
-    public void process(final Exchange exchange)  {
+    public void process(final Exchange exchange) throws IOException {
         try {
             log.info("secrets: {}", secretsArray[0]);
+            var is = ResourceHelper.resolveResourceAsInputStream(exchange.getContext(), secretsArray[0]);
+            log.info("--> IS: {}", is);
             log.info("property json: {}", property);
             var jsonNode = MAPPER.readTree(property);
             System.out.println(jsonNode.getClass());

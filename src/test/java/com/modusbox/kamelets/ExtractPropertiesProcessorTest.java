@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public class ExtractPropertiesProcessorTest {
     ExtractPropertiesProcessor processor;
 
     @Test
-    void testProcess() {
+    void testProcess() throws IOException {
         var exchange = buildDefaultExchange(null);
         var property = "{'k1': 'v1', 'k2': 'v2'}";
         processor.setProperty(property);
