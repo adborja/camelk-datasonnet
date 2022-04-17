@@ -38,6 +38,11 @@ public class ExtractPropertiesProcessor {
             log.info("secrets: {}", secretsArray[0]);
             var scheme = ResourceHelper.getScheme(secretsArray[0]);
             log.info("scheme: {}", scheme);
+            var url = ResourceHelper.resolveResourceAsUrl(exchange.getContext(), secretsArray[0]);
+            log.info("url: {}", url);
+            log.info("url file: {}", url.getFile());
+            log.info("url path: {}", url.getPath());
+            log.info("url host: {}", url.getHost());
             var is = ResourceHelper.resolveResourceAsInputStream(exchange.getContext(), secretsArray[0]);
             var secretValue = new String(is.readAllBytes());
             log.info("--> secret value: {}", secretValue);
