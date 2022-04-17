@@ -36,6 +36,8 @@ public class ExtractPropertiesProcessor {
     public void process(final Exchange exchange) throws IOException {
         try {
             log.info("secrets: {}", secretsArray[0]);
+            var scheme = ResourceHelper.getScheme(secretsArray[0]);
+            log.info("scheme: {}", scheme);
             var is = ResourceHelper.resolveResourceAsInputStream(exchange.getContext(), secretsArray[0]);
             log.info("--> IS: {}", is);
             log.info("property json: {}", property);
