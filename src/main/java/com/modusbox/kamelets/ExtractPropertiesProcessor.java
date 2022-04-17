@@ -33,7 +33,7 @@ public class ExtractPropertiesProcessor {
 
     public void process(final Exchange exchange)  {
         try {
-            log.info("secrets: {}", secretsArray.length);
+            log.info("secrets: {}", secretsArray[0]);
             log.info("property json: {}", property);
             var jsonNode = MAPPER.readTree(property);
             System.out.println(jsonNode.getClass());
