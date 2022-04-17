@@ -39,7 +39,8 @@ public class ExtractPropertiesProcessor {
             var scheme = ResourceHelper.getScheme(secretsArray[0]);
             log.info("scheme: {}", scheme);
             var is = ResourceHelper.resolveResourceAsInputStream(exchange.getContext(), secretsArray[0]);
-            log.info("--> IS: {}", is);
+            var secretValue = new String(is.readAllBytes());
+            log.info("--> secret value: {}", secretValue);
             log.info("property json: {}", property);
             var jsonNode = MAPPER.readTree(property);
             System.out.println(jsonNode.getClass());
